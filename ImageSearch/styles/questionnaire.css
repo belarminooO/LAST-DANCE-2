@@ -1,0 +1,115 @@
+.libre-baskerville-regular {
+    font-family: "Libre Baskerville", serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  .shippori-antique-regular {
+    font-family: "Shippori Antique", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+  
+  .francois-one-regular {
+    font-family: "Francois One", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+
+
+  .btn{
+    box-shadow: 0 8px 8px rgba(0,0,0,0.1);
+}
+
+  .btn:hover{
+    color:#00ddff;  
+    transition: color 1s ease;
+    transition: transform 0.8 ease;
+    transform: translateY(-5px);
+}
+
+
+.line-left {
+    flex: 0.5;
+    height: 2px;
+    background-color: #1ed0d0;
+    border: 2px;
+}
+
+.line-right {
+    flex: 0.5;
+    height: 2px;
+    background-color: #1ed0d0;
+    border: 2px;
+    box-shadow: 0 8px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+}
+
+
+
+
+
+
+body {
+  background-color:rgb(195, 241, 255) !important;
+
+}
+
+
+
+.section {
+  margin-top: 20px;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 8px 16px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 100px;
+}
+
+h1 {
+  font-family: 'Francois One', sans-serif;
+  color: #333;
+  text-shadow: 2px 2px 2px rgb(67, 67, 67);
+}
+
+.btn-primary {
+  background-color: #0062ff;
+  border-color: #00ffea;
+  transition: transform 0.2s;
+}
+.btn-primary:hover {
+  background-color: #709de5;
+  transform: scale(1.05);
+}
+
+.form-control{
+  box-shadow: 8px 16px 8px rgba(0, 0, 0, 0.1);
+}
+.form-select{
+  box-shadow: 8px 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+
+
+
+
+
+.card {
+  min-height: 200px; /* Altura mínima para as cartas */
+  text-align: center; /* Centralizar o conteúdo */
+}
+
+.table .card {
+  margin: 0 auto; /* Centralizar cartas na célula da tabela */
+}
+
+.card-body p {
+  margin-bottom: 0; /* Remover margens desnecessárias */
+}
+
+@media (max-width: 768px) {
+  .card {
+    min-height: 150px; /* Ajuste em telas menores */
+  }
+}
