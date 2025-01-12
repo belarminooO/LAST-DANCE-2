@@ -38,7 +38,7 @@ if (formQuestionnaireP2) {
         userResponses.task1 = document.getElementById("TextareaP2_1").value;
         userResponses.task2 = document.getElementById("TextareaP2_2").value;
         userResponses.task3 = document.getElementById("TextareaP2_3").value;
-        userResponses.task4 = document.getElementById("TextareaP2_4").value;
+
         userResponses.comparison = document.getElementById("TextareaP2_5").value;
 
       
@@ -85,11 +85,6 @@ if (formQuestionnaireP3) {
         location.href = "questionnaire.html";
     };
 }
-
-
-
-
-
 
 
 
