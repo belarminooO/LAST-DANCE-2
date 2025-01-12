@@ -53,71 +53,50 @@ class DatabaseJSON {
         console.log("+++++++ SEARCH START +++++++");
         console.log(jsonData);
         console.log("+++++++ SEARCH START +++++++");
+        console.log("+++++++ Querry +++++++");
+        console.log(query);
+        console.log("+++++++  +++++++");
+
         let imagesMatched = [];
         const normalizedQuery = query.trim().toLowerCase();
-    
-if (normalizedQuery.startsWith("#")) {
-    const colorQuery = normalizedQuery.substring(1); // Remove '#' do início da query
-    if (jsonData[colorQuery]) {
-        const colorImages = jsonData[colorQuery];
-        
-        // Retorna diretamente os caminhos das imagens filtradas
-        return colorImages.slice(0, maxResults).map(im => im.path); 
-    } 
-}
-else {
-        // Busca pela classe (título/categoria)
-        for (const im of jsonData.images || []) {
-            if (im.class && im.class.toLowerCase().includes(normalizedQuery)) {
-                imagesMatched.push(im);
+        const colorQueries = ["black", "orange", "red", "yellow", "green", "teal", "blue", "purple", "pink", "white", "gray", "brown"]; 
+
+        if (colorQueries.includes(query)) {
+            let result = [];
+
+            if (jsonData[query]) {
+                const colorImages = jsonData[query];
+                console.log("+++++++ ANTES +++++++");
+                console.log(colorImages);
+                console.log("+++++++ ============= +++++++");
+
+                // Adiciona todos os caminhos ao invés de limitar desnecessariamente
+                result = colorImages.map(im => im.path);
+                console.log("+++++++ DEPOIS +++++++");
+                console.log(result);
+                console.log("+++++++ ++++++++++++ +++++++");
             }
-        }
-        let diff = imagesMatched.length - maxResults;
-        while (diff > 0) {
-            imagesMatched.pop(); // Remove o último elemento do array
-            diff--;
+
+            return result; // Retorna todos os resultados encontrados
+        } else {
+            for (const im of jsonData.images || []) {
+                if (im.class && im.class.toLowerCase().includes(normalizedQuery)) {
+                    imagesMatched.push(im);
+                }
+            }
+
+            // Limita os resultados se maxResults for fornecido
+            const limitedResults = maxResults ? imagesMatched.slice(0, maxResults) : imagesMatched;
+
+            const imagePaths = limitedResults.map(im => im.path);
+
+            console.log("Critério de busca:", normalizedQuery.startsWith("#") ? "Cor dominante" : "Classe");
+            console.log("Resultados encontrados:", limitedResults);
+            console.log("Caminhos retornados:", imagePaths);
+
+            return imagePaths;
         }
     }
-
-    // Calcula a diferença e ajusta o tamanho do array removendo do final
-
-    // Extrai apenas os caminhos das imagens restantes
-    const imagePaths = imagesMatched.map(im => im.path);
-
-    // Logs para depuração
-    console.log("Critério de busca:", normalizedQuery.startsWith("#") ? "Cor dominante" : "Classe");
-    console.log("Resultados encontrados:", imagesMatched);
-    console.log("Caminhos retornados:", imagePaths);
-
-    return imagePaths;
-}
-
-
-    // search(query, jsonData, maxResults) {
-    //     console.log("debug -  DatabaseJSON Search");
-    //     let imagesMatched = []; // Array to hold matched images
-
-    //     // Determine the search criteria: filter by dominant color or class
-    //     if (query.startsWith("#")) {
-    //         imagesMatched = jsonData.images.filter(im => im.dominantcolor === query);
-    //     } else {
-    //         imagesMatched = jsonData.images.filter(im => im.class === query);
-    //     }
-
-    //     // Limit the number of results to maxResults or the total matches, whichever is smaller
-    //     maxResults = Math.min(maxResults, imagesMatched.length);
-
-    //     console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-    //     console.log(imagesMatched);
-    //     console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-    //     console.log("bbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
-    //     console.log(imagesMatched.slice(0, maxResults).map(im => im.path));
-    //     console.log("bbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
-
-    //     // Extract and return the file paths of the matched images
-    //     return imagesMatched.slice(0, maxResults).map(im => im.path);
-    // }
-    
 }
 
 /**
