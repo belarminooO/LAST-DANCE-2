@@ -1,24 +1,27 @@
-
 const tableBody = document.querySelector("table tbody");
 
+let idCounter = 0;
 
 function loadLocalStorageData() {
-
     tableBody.innerHTML = "";
 
+    let idCounter = 1; // Inicializar o contador dentro da função
 
-    Object.keys(localStorage).forEach((key, index) => {
+    Object.keys(localStorage).forEach((key) => {
+        // Ignorar chaves irrelevantes
+        if (key.includes("colorDatabase")) {
+            return; // Ignorar esta chave
+        }
+
         const data = localStorage.getItem(key);
 
-    
         try {
             const parsedData = JSON.parse(data);
 
-
+            // Criar uma linha na tabela
             const row = document.createElement("tr");
-
             row.innerHTML = `
-                <th scope="row">${index + 1}</th>
+                <th scope="row">${idCounter++}</th> <!-- Incrementar aqui -->
                 <td>${parsedData.age || "N/A"}</td>
                 <td>${parsedData.gender || "N/A"}</td>
                 <td>${parsedData.internetUsage || "N/A"}</td>
@@ -27,34 +30,27 @@ function loadLocalStorageData() {
                 <td>${parsedData.browser3 || "N/A"}</td>     
                 <td>${parsedData.knowsImageSites || "N/A"}</td>     
                 <td>${parsedData.imageSiteResponse || "N/A"}</td>     
-                
-                
-                
                 <td>${parsedData.task1 || "N/A"}</td>
                 <td>${parsedData.task2 || "N/A"}</td>
                 <td>${parsedData.task3 || "N/A"}</td>
                 <td>${parsedData.task4 || "N/A"}</td> 
                 <td>${parsedData.comparison || "N/A"}</td>
-
-
-
-
-
                 <td>${parsedData.susResponses || "N/A"}</td>
-
                 <td>${parsedData.slider1 || "N/A"}</td>     
                 <td>${parsedData.slider2 || "N/A"}</td>     
-                <td>${parsedData.slider3 || "N/A"}</td>     
-   
-
+                <td>${parsedData.slider3 || "N/A"}</td>  
+                <td>${parsedData.slider4 || "N/A"}</td>     
             `;
-
-            tableBody.appendChild(row);
+            if (!parsedData.slider4) {
+                console.warn(`Slider4 ausente na entrada:`, parsedData);
+            }
+            tableBody.appendChild(row); // Adicionar a linha à tabela
         } catch (error) {
             console.error(`Erro ao analisar os dados da chave ${key}:`, error);
         }
     });
 }
+
 
 document.addEventListener("DOMContentLoaded", loadLocalStorageData);
 
