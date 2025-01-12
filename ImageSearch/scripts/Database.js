@@ -50,30 +50,22 @@ class DatabaseJSON {
      * @returns {string[]} An array of file paths for matched images.
      */
     search(query, jsonData, maxResults) {
-    console.log("+++++++AAAAAAAAAAAENTROUAAAAAAAAAAAAA+++++++++");
-    console.log(jsonData);
-    console.log("+++++++AAAAAAAAAAAAAAAAAAAAA+++++++++");
-    let imagesMatched = []; // Variável declarada no início
-
-    // Normaliza a query para evitar problemas com maiúsculas/minúsculas
-    const normalizedQuery = query.trim().toLowerCase();
-
-    // Determina o critério de pesquisa
-    if (normalizedQuery.startsWith("#")) {
-        // Busca pela cor dominante (removendo o '#' da query)
-        const colorQuery = normalizedQuery.substring(1);
-
-        // Iterar pelas imagens no jsonData
-        for (const image of jsonData.images || []) {
-            if (image.class.toLowerCase() === colorQuery) {
-                imagesMatched.push(image);
-            }
-        }
-
-        console.log("+++++++RESULTADOOOOOOOOOOOO+++++++++");
-        console.log(imagesMatched);
-        console.log("+++++++RESULTADOOOOOOOOOOOO+++++++++");
-    } else {
+        console.log("+++++++ SEARCH START +++++++");
+        console.log(jsonData);
+        console.log("+++++++ SEARCH START +++++++");
+        let imagesMatched = [];
+        const normalizedQuery = query.trim().toLowerCase();
+    
+if (normalizedQuery.startsWith("#")) {
+    const colorQuery = normalizedQuery.substring(1); // Remove '#' do início da query
+    if (jsonData[colorQuery]) {
+        const colorImages = jsonData[colorQuery];
+        
+        // Retorna diretamente os caminhos das imagens filtradas
+        return colorImages.slice(0, maxResults).map(im => im.path); 
+    } 
+}
+else {
         // Busca pela classe (título/categoria)
         for (const im of jsonData.images || []) {
             if (im.class && im.class.toLowerCase().includes(normalizedQuery)) {
@@ -219,3 +211,4 @@ class LocalStorageDatabaseJSON {
 
 // Export the classes for use in other modules
 export { LocalStorageDatabaseJSON, DatabaseJSON };
+
