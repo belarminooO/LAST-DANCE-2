@@ -76,8 +76,8 @@ class DatabaseJSON {
                 console.log(result);
                 console.log("+++++++ ++++++++++++ +++++++");
             }
-
-            return result; // Retorna todos os resultados encontrados
+            const limitedResults = maxResults ? result.slice(0, maxResults) : result;
+            return limitedResults; 
         } else {
             for (const im of jsonData.images || []) {
                 if (im.class && im.class.toLowerCase().includes(normalizedQuery)) {
@@ -190,4 +190,3 @@ class LocalStorageDatabaseJSON {
 
 // Export the classes for use in other modules
 export { LocalStorageDatabaseJSON, DatabaseJSON };
-
