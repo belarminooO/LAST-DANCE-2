@@ -120,24 +120,39 @@ function main() {
     //     // Chamando a função app.searchKeywords com os parâmetros corretos
     //     app.searchColor(document.getElementById("searchSpace").value, redValue);
     // });
-    const colorButtons = document.querySelectorAll('.btn.color');
+    // const colorButtons = document.querySelectorAll('.btn.color');
 
-    // Adiciona um listener de evento de clique a cada botão de cor
+    // // Adiciona um listener de evento de clique a cada botão de cor
+    // colorButtons.forEach(button => {
+    //     button.addEventListener('click', () => {
+    //         clickSound.currentTime = 0; // Reinicia o som
+    //         clickSound.play(); // Reproduz o som
+            
+    //         // Obtendo o valor do botão clicado
+    //         let colorValue = button.value;
+
+    //         // Chamando a função app.searchColor com os parâmetros corretos
+    //         // app.searchColor(document.getElementById("searchSpace").value, colorValue);
+    //     app.searchColor(colorValue);
+    //     });
+    
+        
+    // });
+
+    const colorButtons = document.querySelectorAll('.btn.color');
     colorButtons.forEach(button => {
         button.addEventListener('click', () => {
-            clickSound.currentTime = 0; // Reinicia o som
-            clickSound.play(); // Reproduz o som
-            
-            // Obtendo o valor do botão clicado
-            let colorValue = button.value;
-
-            // Chamando a função app.searchColor com os parâmetros corretos
-            app.searchColor(document.getElementById("searchSpace").value, colorValue);
-        });
+            clickSound.currentTime = 0;
+            clickSound.play();
     
+            let colorValue = button.value;
+            console.log("===================");
+            console.log(colorValue);
+            console.log("===================");
+            app.searchColor(colorValue);
+        });
     });
-
-
+    
 
 
 
