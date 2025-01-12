@@ -445,34 +445,35 @@ class ISearchEngine {
     searchColor(color) {
         console.log("BUSCA PELA COR");
 
-        // Lê o banco de dados  para a categoria especificada
-        let  jssonDoc = this.lsDb.read("colorDatabase"); // Supondo que lsDb tenha um método para ler XML
-        
+        // Remove o prefixo '#' antes de buscar no localStorage
+        const normalizedColor = color.startsWith("#") ? color.substring(1).toLowerCase() : color.toLowerCase();
+
+        // Lê o banco de dados de cores
+        let jsonDoc = this.lsDb.read("colorDatabase");
         console.log("=============");
-        console.log(jssonDoc);
+        console.log(jsonDoc);
         console.log("=============");
-        // Busca imagens no 
-        let image_list = this.db.search(color.toLowerCase(), jssonDoc, this.numImages);
 
-        
-        console.log("Conteúdo de img_paths antes de esvaziar:", this.img_paths.stuff); // Print para verificar o conteúdo de img_paths
-        this.img_paths.emptyPool(); // Corrected method name
-        console.log("Conteúdo de img_paths antes de depois:", this.img_paths.stuff);
-        console.log("Conteúdo de allpictures antes de esvaziar:", this.allpictures.stuff); // Print para verificar o conteúdo de allpictures
-        this.allpictures.emptyPool(); // Corrected method name
-        console.log("Conteúdo de allpictures depois de esvaziar:", this.allpictures.stuff);
-        
+        if (!jsonDoc || !jsonDoc[normalizedColor]) {
+            console.error(`Nenhuma imagem encontrada para a cor: ${color}`);
+            return;
+        }
 
+        let imageList = this.db.search(normalizedColor, jsonDoc, null);
 
-        this.clearCanvas(this.viewCanvas); 
+        console.log("Conteúdo de img_paths antes de esvaziar:", this.img_paths.stuff);
+        this.img_paths.emptyPool();
+        console.log("Conteúdo de img_paths depois de esvaziar:", this.img_paths.stuff);
+
+        this.clearCanvas(this.viewCanvas);
 
         // Insere as imagens filtradas na lista de caminhos de imagem
-        image_list.forEach((element) => {
+        imageList.forEach((element) => {
             this.img_paths.insert(element);
         });
 
         console.log("*******DEBUG IMGPATHS******");
-        console.log("img_paths:", this.img_paths.stuff); // Print para verificar o conteúdo de img_paths
+        console.log("img_paths:", this.img_paths.stuff);
         console.log("*******DEBUG IMGPATHS******");
 
         // Atualiza as imagens relevantes e exibe-as
@@ -613,29 +614,25 @@ class ISearchEngine {
     }
 
     relevantPictures() {
-        const self = this;
+        this.allpictures.emptyPool(); // Limpa apenas se necessário
 
-        // Limpa a pool de imagens existentes
-        this.allpictures.emptyPool(); // Método corrigido
-
-        // Cria novos objetos Picture com base nos caminhos retornados
         for (let i = 0; i < this.img_paths.stuff.length; i++) {
             let img = new Picture(
                 0,
                 0,
-                self.imgWidth,
-                self.imgHeight,
-                self.img_paths.stuff[i],
+                this.imgWidth,
+                this.imgHeight,
+                this.img_paths.stuff[i],
                 "create"
             );
             this.allpictures.insert(img);
-            console.log("==================");
-            console.log(this.allpictures);
-            console.log("==================");
         }
 
-        // Limpa a pool de caminhos
-        this.img_paths.emptyPool(); // Método corrigido
+        console.log("*******DEBUG ALLPICTURES******");
+        console.log("allpictures:", this.allpictures.stuff);
+        console.log("*******DEBUG ALLPICTURES******");
+
+        this.img_paths.emptyPool(); // Limpa após transferir
     }
 
     /**
